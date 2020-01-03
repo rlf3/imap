@@ -50,7 +50,8 @@ flutter:
     - assets/email.png
     - assets/flutter_image.jpg
     - assets/menu.png 
-    - assets/world.png      
+    - assets/world.png    
+    - assets/icons/  
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

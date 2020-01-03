@@ -97,15 +97,12 @@ class _HomePageState extends State<HomePage> {
       print(_isEmailVerified);
       _showVerifyEmailDialog();
       //Navigator.of(context).pop();
-      Navigator.pushNamed(context, '/login');
-      _signOut();
+      //Navigator.pushNamed(context, '/login');
+      //_signOut();
     }
   }
 
-  void _resentVerifyEmail(){
-    widget.auth.sendEmailVerification();
-    _showVerifyEmailSentDialog();
-  }
+
 
   void _showVerifyEmailDialog() {
     showDialog(
@@ -119,14 +116,15 @@ class _HomePageState extends State<HomePage> {
             new FlatButton(
               child: new Text("Resent link"),
               onPressed: () {
-                Navigator.of(context).pop();
                 _resentVerifyEmail();
+                Navigator.of(context).pop();
+                
               },
             ),
             new FlatButton(
               child: new Text("Dismiss"),
               onPressed: () {
-                _signOut();
+                //_signOut();
                 Navigator.of(context).pop();
                 
                 //Navigator.pop(context);
@@ -136,6 +134,11 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+    void _resentVerifyEmail(){
+    widget.auth.sendEmailVerification();
+    _showVerifyEmailSentDialog();
   }
 
   void _showVerifyEmailSentDialog() {
