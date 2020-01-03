@@ -5,6 +5,8 @@ import 'package:imap/utils/myColors.dart';
 import 'package:imap/utils/strings.dart';
 import 'package:imap/utils/responsive_widget.dart';
 
+import 'package:imap/pages/root_page.dart';
+import 'package:imap/services/authentication.dart';
 
 class Header extends StatelessWidget {
 
@@ -33,7 +35,7 @@ class Header extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         //children: getLinksListing()..add(buildLoginButton()),
         children: <Widget>[
-          getLinksListing(),
+          getLinksListing(context),
           //buildLoginButton(),
         ],
       );
@@ -64,7 +66,31 @@ class Header extends StatelessWidget {
                                                       
               ],
               onSelected: (value) {
-              print("value:$value");
+
+                switch (value) {
+                  case 1: 
+                    Navigator.pushNamed(context, '/');
+
+                  break;  
+                  case 2: 
+                    Navigator.pushNamed(context, '/samples');
+
+                  break;                    
+                  case 3: 
+                    Navigator.pushNamed(context, '/videos');
+
+                  break;    
+                  case 4: 
+                    Navigator.pushNamed(context, '/plugins');
+
+                  break;                                       
+                  case 5: 
+                    Navigator.pushNamed(context, '/login');
+                    //RootPage(auth: new Auth());
+                    //return MaterialPageRoute(builder: (_) => new RootPage(auth: new Auth()));
+                  break;                                
+                  default:
+                }
               },
         );
 
@@ -91,30 +117,40 @@ class Header extends StatelessWidget {
     }).toList();
   }
 
-  Widget getLinksListing() {
+  Widget getLinksListing(BuildContext context) {
     
     return  ButtonBar(
       children: <Widget>[
         FlatButton(
           child: Text('Home'),
-          onPressed: null,
+          onPressed: (){
+            Navigator.pushNamed(context, '/');
+          },
         ),
         FlatButton(
           child: Text('Samples'),
-          onPressed: null,
+          onPressed: (){
+            Navigator.pushNamed(context, '/samples');
+          },
         ),
         FlatButton(
           child: Text('videos'),
-          onPressed: null,
+          onPressed: (){
+            Navigator.pushNamed(context, '/samples');
+          },
         ),
         FlatButton(
           child: Text('Plugins'),
-          onPressed: null,
+          onPressed: (){
+            Navigator.pushNamed(context, '/samples');
+          },
         ),       
         FlatButton(
           child: Text('Login', style: TextStyle(color: MyColors.blue1, fontWeight: FontWeight.w700),
           ),
-          onPressed: null,
+          onPressed: (){
+            Navigator.pushNamed(context, '/login');
+          },
         ),             
         //buildLoginButton(),             
       ],

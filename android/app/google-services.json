@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1047004401761",
+    "firebase_url": "https://imappress1.firebaseio.com",
+    "project_id": "imappress1",
+    "storage_bucket": "imappress1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047004401761:android:d4e5bf94d2e339c3b81a20",
+        "android_client_info": {
+          "package_name": "com.example.imap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047004401761-kf7ab6uidp7jof5pimmecr7o7jmr3lsj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOWrz5YtPy6entZg5jUUQ495YRipbfgdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047004401761-kf7ab6uidp7jof5pimmecr7o7jmr3lsj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
