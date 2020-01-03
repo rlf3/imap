@@ -45,7 +45,8 @@ flutter:
     - assets/app-icon.png
     - assets/email.png
     - assets/flutter_image.jpg
-    - assets/menu.png  
+    - assets/menu.png 
+    - assets/world.png      
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 

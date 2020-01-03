@@ -56,7 +56,7 @@ class SubscribeButton extends StatelessWidget {
                   ? 12
                   : ResponsiveWidget.isMediumScreen(context)
                   ? 12
-                  : 16,
+                  : 16,//16
               letterSpacing: 1),
         ),
         SizedBox(

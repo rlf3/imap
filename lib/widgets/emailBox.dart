@@ -10,11 +10,11 @@ class EmailBox extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
           left: 4.0,
-          right: ResponsiveWidget.isSmallScreen(context) ? 4: 74,
+          right: ResponsiveWidget.isSmallScreen(context) ? 4: 14,//4: 74
           top: 10,
           bottom: 40),
       child: Container(
-        height: 60,
+        height: 60,//
         decoration: BoxDecoration(
             color: MyColors.white1,
             borderRadius: BorderRadius.circular(20),

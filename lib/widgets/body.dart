@@ -4,7 +4,7 @@ import 'package:imap/utils/myColors.dart';
 import 'package:imap/widgets/emailBox.dart';
 import 'package:imap/utils/responsive_widget.dart';
 
-var backgroundImage = "assets/flutter_image.jpg";
+var backgroundImage = "assets/world.png";
 
 class Body extends StatelessWidget {
   @override
@@ -44,7 +44,7 @@ class LargeScreen extends StatelessWidget {
   Widget addWelcomeText() {
     return FractionallySizedBox(
       alignment: Alignment.centerLeft, //text aligned to left side
-      widthFactor: .6, //covers about half of the screen
+      widthFactor: .5, // 6 covers about half of the screen
       child: Padding(
         padding: EdgeInsets.only(left: 48),
         child: Column(
@@ -78,8 +78,18 @@ class LargeScreen extends StatelessWidget {
             ),
             SizedBox(
               height: 40,
-            ), //Give some spacing
-            EmailBox()
+              //width: 60,
+            ),
+            //
+            Padding(
+              padding: EdgeInsets.only(left: 12.0, top: 20),
+              child: EmailBox(),              
+            ), //Give some spacing,
+//            EmailBox(),
+            SizedBox(
+              height: 40,
+              //width: 60,
+            ),            
           ],
         ),
       ),

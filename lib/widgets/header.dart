@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:imap/utils/myColors.dart';
 import 'package:imap/utils/strings.dart';
 import 'package:imap/utils/responsive_widget.dart';
 
+
 class Header extends StatelessWidget {
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,14 +31,54 @@ class Header extends StatelessWidget {
     if (!ResponsiveWidget.isSmallScreen(context))
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: getLinksListing()..add(buildLoginButton()),
+        //children: getLinksListing()..add(buildLoginButton()),
+        children: <Widget>[
+          getLinksListing(),
+          //buildLoginButton(),
+        ],
       );
     else
-      return Image.asset("assets/menu.png", width: 25, height: 25);
+      //return Image.asset("assets/menu.png", width: 25, height: 25);
+      return PopupMenuButton<int>(
+          itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  child: Text("Home"),
+                ),
+                PopupMenuItem(
+                  value: 2,
+                  child: Text("Samples"),
+                ),
+                PopupMenuItem(
+                  value: 3,
+                  child: Text("Videos"),
+                ),
+                PopupMenuItem(
+                  value: 4,
+                  child: Text("Plugins"),
+                ),    
+                PopupMenuItem(
+                  value: 5,
+                  child: Text("Login", style: TextStyle(color: MyColors.blue1, fontWeight: FontWeight.w700),),
+                ),       
+                                                      
+              ],
+              onSelected: (value) {
+              print("value:$value");
+              },
+        );
+
+
+
+
+
+
+
+
   }
 
   //Builds navigation list for header
-  List<Widget> getLinksListing() {
+  List<Widget> getLinksListingO() {
     var links = ["Home", "Samples", "Videos", "Plugins"];
     return links.map((link) {
       return Padding(
@@ -43,6 +90,41 @@ class Header extends StatelessWidget {
       );
     }).toList();
   }
+
+  Widget getLinksListing() {
+    
+    return  ButtonBar(
+      children: <Widget>[
+        FlatButton(
+          child: Text('Home'),
+          onPressed: null,
+        ),
+        FlatButton(
+          child: Text('Samples'),
+          onPressed: null,
+        ),
+        FlatButton(
+          child: Text('videos'),
+          onPressed: null,
+        ),
+        FlatButton(
+          child: Text('Plugins'),
+          onPressed: null,
+        ),       
+        FlatButton(
+          child: Text('Login', style: TextStyle(color: MyColors.blue1, fontWeight: FontWeight.w700),
+          ),
+          onPressed: null,
+        ),             
+        //buildLoginButton(),             
+      ],
+    );
+  }
+
+
+
+
+
 
   //Builds and decorates login button
   Widget buildLoginButton() {
@@ -68,10 +150,11 @@ class Header extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: Center(
-              child: Text(
-                Strings.loginButton,
-                style: TextStyle(
-                    color: MyColors.white1, fontSize: 18, letterSpacing: 1),
+              child: InkWell(//Text
+                child: Text('Login',style: TextStyle(color: MyColors.white1, fontSize: 18, letterSpacing: 1),),
+                onTap: () {},
+                //Strings.loginButton,
+                //style: TextStyle(color: MyColors.white1, fontSize: 18, letterSpacing: 1),
               ),
             ),
           ),
