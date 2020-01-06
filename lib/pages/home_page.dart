@@ -113,8 +113,8 @@ class _HomePageState extends State<HomePage> {
       print(_isEmailVerified);
       _showVerifyEmailDialog();
       //Navigator.of(context).pop();
-      Navigator.pushNamed(context, '/login');
-      _signOut();
+      //Navigator.pushNamed(context, '/login');
+      //_signOut();
     }
   }
 
@@ -135,8 +135,9 @@ class _HomePageState extends State<HomePage> {
             new FlatButton(
               child: new Text("Resent link"),
               onPressed: () {
-                Navigator.of(context).pop();
+                
                 _resentVerifyEmail();
+                Navigator.of(context).pop();
               },
             ),
             new FlatButton(
@@ -166,9 +167,9 @@ class _HomePageState extends State<HomePage> {
             new FlatButton(
               child: new Text("Dismiss"),
               onPressed: () {
-                _signOut();
-                Navigator.of(context).pop();
                 
+                Navigator.of(context).pop();
+                _signOut();
               },
             ),
           ],
