@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:imap/pages/dash_board.dart';
 import 'package:imap/services/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:imap/models/todo.dart';
 import 'dart:async';
-import 'package:imap/constants.dart';
-import 'package:imap/widgets/bottom_navigationBar.dart';
 import 'page_search.dart';
 import 'page_coming_soon.dart';
 import 'page_profile.dart';
 import 'page_settings.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
-//import 'package:webpresspattern/services/flutter_ringtone_player.dart';
-
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.auth, this.userId, this.onSignedOut})
+class DashBoard extends StatefulWidget {
+  DashBoard({Key key, this.auth, this.userId, this.onSignedOut})
       : super(key: key);
 
   final BaseAuth auth;
@@ -22,7 +16,7 @@ class HomePage extends StatefulWidget {
   final String userId;
 
   @override
-  State<StatefulWidget> createState() => new _HomePageState();
+  State<StatefulWidget> createState() => new _DashBoardState();
 }
 
 
@@ -32,7 +26,7 @@ enum AuthStatus {
   NOT_LOGGED_IN,
   LOGGED_IN,
 }
-class _HomePageState extends State<HomePage> {
+class _DashBoardState extends State<DashBoard> {
   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
 
 
@@ -52,7 +46,6 @@ class _HomePageState extends State<HomePage> {
 
   String _userId = "";
 
-  
   List<Todo> _todoList;
 
   final FirebaseDatabase _database = FirebaseDatabase.instance;
@@ -64,22 +57,14 @@ class _HomePageState extends State<HomePage> {
 
   Query _todoQuery;
 
-  bool _isEmailVerified = false;
+ 
 
 
-  _changeCurrentTab(int tab) {
-    //Changing tabs from BottomNavigationBar
-    setState(() {
-      currentTab = tab;
-      pageController.jumpToPage(0);
-    });
-  }
 
 
   @override
   void initState() {
     super.initState();
-
 
     widget.auth.getCurrentUser().then((user){
       setState(() {
@@ -88,17 +73,19 @@ class _HomePageState extends State<HomePage> {
       });
     });
 
+    //widget.userId = _userId;
 
+    //_checkEmailVerification();
 
-
-    _checkEmailVerification();
-    _userId = widget.userId;
     _todoList = new List();
     _todoQuery = _database
         .reference()
         .child("todo")
         .orderByChild("userId")
         .equalTo(widget.userId);
+        //.equalTo(user.uid.toString());
+        //.equalTo(_userId);
+        //.equalTo(widget.auth.getCurrentUser());
     _onTodoAddedSubscription = _todoQuery.onChildAdded.listen(_onEntryAdded);
     _onTodoChangedSubscription = _todoQuery.onChildChanged.listen(_onEntryChanged);
 
@@ -107,88 +94,10 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  void _checkEmailVerification() async {
-    _isEmailVerified = await widget.auth.isEmailVerified();
-    if (!_isEmailVerified) {
-      print(_isEmailVerified);
-      _showVerifyEmailDialog();
-      //Navigator.of(context).pop();
-      Navigator.pushNamed(context, '/login');
-      _signOut();
-    }
-  }
-
-  void _resentVerifyEmail(){
-    widget.auth.sendEmailVerification();
-    _showVerifyEmailSentDialog();
-  }
-
-  void _showVerifyEmailDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Verify your account"),
-          content: new Text("Please verify account in the link sent to email"),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text("Resent link"),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _resentVerifyEmail();
-              },
-            ),
-            new FlatButton(
-              child: new Text("Dismiss"),
-              onPressed: () {
-                _signOut();
-                Navigator.of(context).pop();
-                
-                //Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showVerifyEmailSentDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Verify your account"),
-          content: new Text("Link to verify account has been sent to your email"),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text("Dismiss"),
-              onPressed: () {
-                _signOut();
-                Navigator.of(context).pop();
-                
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
 
 
-
-
-
-
-
-
-
-
-
-
+ 
 ///////////////////Show User /////////////
 ///
 
@@ -205,7 +114,8 @@ class _HomePageState extends State<HomePage> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Current User"),
-          content: new Text(_userId),
+          //content: new Text(_userId),
+          content: new Text(widget.userId),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Ok"),
@@ -409,23 +319,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
+/*        appBar: new AppBar(
           //leading: Icon(Icons.home),
-          title: new Text(appName),
-          //title: new Text(_userId),
+          title: new Text(_userId),
           actions: <Widget>[
                 
                 new IconButton(
                   icon: Icon(Icons.notifications),
                   onPressed: (){
-                      //_showName();
-                      FlutterRingtonePlayer.play(
-                      android: AndroidSounds.notification,
-                      ios: IosSounds.glass,
-                      looping: true, // Android only - API >= 28
-                      volume: 0.1, // Android only - API >= 28
-                      asAlarm: false, // Android only - all APIs
-                      );
+                    _showName();
                   },
                 ),
                 
@@ -456,17 +358,17 @@ class _HomePageState extends State<HomePage> {
 
                 
           ],
-        ),
-        //body: _showTodoList(),
-        body: bodyView(currentTab),
-/*         floatingActionButton: FloatingActionButton(
+        ),*/
+        body: _showTodoList(),
+        //body: bodyView(currentTab),
+        floatingActionButton: FloatingActionButton(
           onPressed: () {
             _showDialog(context);
           },
           tooltip: 'Increment',
           child: Icon(Icons.add),
-        ), */
-        bottomNavigationBar: BottomNavBar(changeCurrentTab: _changeCurrentTab)
+        ),
+//        bottomNavigationBar: BottomNavBar(changeCurrentTab: _changeCurrentTab)
     );
   }
 
@@ -490,11 +392,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case 2:
         //Profile Page
-        tabView = [ProfilePage(
-                      userId: _userId,
-                      auth: widget.auth,
-                      onSignedOut: _onSignedOut,          
-        )];
+        tabView = [ProfilePage()];
         break;
       case 3:
         //Setting Page

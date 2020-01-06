@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:imap/pages/dash_board.dart';
 import 'package:imap/services/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:imap/models/todo.dart';
@@ -10,9 +9,6 @@ import 'page_search.dart';
 import 'page_coming_soon.dart';
 import 'page_profile.dart';
 import 'page_settings.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
-//import 'package:webpresspattern/services/flutter_ringtone_player.dart';
-
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.onSignedOut})
       : super(key: key);
@@ -52,7 +48,6 @@ class _HomePageState extends State<HomePage> {
 
   String _userId = "";
 
-  
   List<Todo> _todoList;
 
   final FirebaseDatabase _database = FirebaseDatabase.instance;
@@ -80,19 +75,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-
-    widget.auth.getCurrentUser().then((user){
-      setState(() {
-        _userId = user.uid.toString();
-        //widget.userId = user.uid.toString();
-      });
-    });
-
-
-
-
     _checkEmailVerification();
-    _userId = widget.userId;
+
     _todoList = new List();
     _todoQuery = _database
         .reference()
@@ -113,15 +97,12 @@ class _HomePageState extends State<HomePage> {
       print(_isEmailVerified);
       _showVerifyEmailDialog();
       //Navigator.of(context).pop();
-      Navigator.pushNamed(context, '/login');
-      _signOut();
+      //Navigator.pushNamed(context, '/login');
+      //_signOut();
     }
   }
 
-  void _resentVerifyEmail(){
-    widget.auth.sendEmailVerification();
-    _showVerifyEmailSentDialog();
-  }
+
 
   void _showVerifyEmailDialog() {
     showDialog(
@@ -135,14 +116,15 @@ class _HomePageState extends State<HomePage> {
             new FlatButton(
               child: new Text("Resent link"),
               onPressed: () {
-                Navigator.of(context).pop();
                 _resentVerifyEmail();
+                Navigator.of(context).pop();
+                
               },
             ),
             new FlatButton(
               child: new Text("Dismiss"),
               onPressed: () {
-                _signOut();
+                //_signOut();
                 Navigator.of(context).pop();
                 
                 //Navigator.pop(context);
@@ -152,6 +134,11 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+    void _resentVerifyEmail(){
+    widget.auth.sendEmailVerification();
+    _showVerifyEmailSentDialog();
   }
 
   void _showVerifyEmailSentDialog() {
@@ -412,20 +399,12 @@ class _HomePageState extends State<HomePage> {
         appBar: new AppBar(
           //leading: Icon(Icons.home),
           title: new Text(appName),
-          //title: new Text(_userId),
           actions: <Widget>[
                 
                 new IconButton(
                   icon: Icon(Icons.notifications),
                   onPressed: (){
-                      //_showName();
-                      FlutterRingtonePlayer.play(
-                      android: AndroidSounds.notification,
-                      ios: IosSounds.glass,
-                      looping: true, // Android only - API >= 28
-                      volume: 0.1, // Android only - API >= 28
-                      asAlarm: false, // Android only - all APIs
-                      );
+
                   },
                 ),
                 
@@ -490,11 +469,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case 2:
         //Profile Page
-        tabView = [ProfilePage(
-                      userId: _userId,
-                      auth: widget.auth,
-                      onSignedOut: _onSignedOut,          
-        )];
+        tabView = [ProfilePage()];
         break;
       case 3:
         //Setting Page
@@ -509,4 +484,3 @@ class _HomePageState extends State<HomePage> {
   }
 
 }
-
