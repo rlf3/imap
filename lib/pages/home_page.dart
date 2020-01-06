@@ -478,7 +478,7 @@ class _HomePageState extends State<HomePage> {
     switch (currentTab) {
       case 0:
         //Dashboard Page
-        tabView = [PageComingSoon(
+        tabView = [DashBoard(
                       userId: _userId,
                       auth: widget.auth,
                       onSignedOut: _onSignedOut,
